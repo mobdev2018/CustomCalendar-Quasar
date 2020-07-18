@@ -1,0 +1,70 @@
+<div class="column custom-datepicker q-pa-md">
+  <div class="row justify-center">
+    <div class="column q-pa-sm">
+      <date-picker
+        :inline="true"
+        :value="first"
+        full-month-name
+        :highlighted="checkRanges()"
+        :disabled-dates="disabledFirstDates()"
+        wrapper-class="calendar-wrapper"
+        calendar-class="calendar"
+        v-on:selected="selectFirst">
+      </date-picker>
+      
+      <p class="q-mt-md q-mb-none text-light">From:</p>
+      <q-input 
+        v-model="dateString1" 
+        @keyup="onFinishFirst" 
+        placeholder="MM/DD/YYYY"
+        :error="firstInputError"
+        error-label="Some error"/>
+      <small v-if="firstInputError" class="error-text">Invalid Date</small>
+    </div>
+  
+    <div class="q-pa-sm">
+      <date-picker
+        ref="firstPicker"
+        :inline="true"
+        :value="second"
+        full-month-name
+        :highlighted="checkRanges()"
+        :disabled-dates="disabledSecondDates()"
+        wrapper-class="calendar-wrapper"
+        calendar-class="calendar"
+        v-on:selected="selectSecond">
+      </date-picker>
+      <p class="q-mt-md q-mb-none text-light">To:</p>
+      <q-input 
+        v-model="dateString2" 
+        @keyup="onFinishSecond" 
+        placeholder="MM/DD/YYYY"
+        :error="secondInputError"/>
+      <small v-if="secondInputError" class="error-text">Invalid Date</small>
+    </div>
+    
+    <div class="column justify-between q-pa-sm buttons">
+      <q-btn class="outline" text-height="20px" size="full-width" label="Today" @click="select('Today')" :color="selectedOption == 'Today' ? 'primary' : '' "/>
+      <q-btn class="outline" text-height="20px" size="full-width" label="This Week" @click="select('This Week')" :color=" selectedOption == 'This Week' ? 'primary' : '' " />
+      <q-btn class="outline" text-height="20px" size="full-width" label="Last Week" @click="select('Last Week')" :color=" selectedOption == 'Last Week' ? 'primary' : '' "/>
+      <q-btn class="outline" text-height="20px" size="full-width" label="This Month" @click="select('This Month')" :color=" selectedOption == 'This Month' ? 'primary' : '' "/>
+      <q-btn class="outline" text-height="20px" size="full-width" label="Last Month" @click="select('Last Month')" :color=" selectedOption == 'Last Month' ? 'primary' : '' "/>
+      <q-btn class="outline" text-height="20px" size="full-width" label="All Time" @click="select('All Time')" :color=" selectedOption == 'All Time' ? 'primary' : '' "/>
+      <q-btn class="outline" text-height="20px" size="full-width" label="Fixed Dates" @click="select('Fixed Dates')" :color=" selectedOption == 'Fixed Dates' ? 'primary' : '' "/>
+    </div>
+  </div>
+
+  <div class="divider">
+  </div>
+
+  <div class="row justify-between">
+    <div class="q-body-1 text-faded">
+      <span class="text-bold">Date Added </span>
+      <span v-if="first != undefined || second != undefined">is {{ dateString1 == '' ? '' : 'from ' + dateString1 }} {{ dateString2 == '' ? '' : 'to ' + dateString2 }}</span>
+    </div>
+    <div>
+      <q-btn flat color="primary" label="Apply" :disable="first == undefined || second == undefined ? true : false" @click=""/>
+      <q-btn flat color="grey" label="Clear" @click="onClear"/>
+    </div>
+  </div>
+</div>
